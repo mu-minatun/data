@@ -1,0 +1,25 @@
+package com.tuton;
+
+public class Minuman extends MenuItem {
+
+    private String jenisMinuman; // misal: soft drink, juice, coffee
+
+    public Minuman(String nama, double harga, String ukuran){
+        super(nama, harga, "Minuman");
+        this.ukuran = ukuran;
+    }
+
+    public String getUkuran() {
+        return ukuran;
+    }
+
+    public void setUkuran(String ukuran) {
+        this.ukuran = ukuran;
+    }
+
+    @Override
+    public void tampilMenu() {
+        System.out.println("Minuman: " + getNama() + ", Harga: " + getHarga() + ", Ukuran: " + getUkuran());
+    }   
+
+}
