@@ -1,0 +1,75 @@
+package com.tuton;
+import java.util.ArrayList;
+import java.util.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.*;
+
+public class Order {
+    private ArrayList<MenuItem> itemPesanan;
+    private ArrayList<Integer> jumlahPesanan;
+
+    public Order() {
+        itemPesanan = new ArrayList<>();
+        jumlahPesanan = new ArrayList<>();
+    }
+
+    public void tambahPesanan(MenuItem item) {
+        itemPesanan.add(item);
+        jumlahPesanan.add(1);
+        System.out.println("Pesanan berhasil ditambahkan: " + item.getNama());
+    }
+
+    public double hitungTotal() {
+        double total = 0;
+        for (int i = 0; i < itemPesanan.size(); i++) {
+            MenuItem item = itemPesanan.get(i);
+            int qty = jumlahPesanan.get(i);
+            
+            //tuk kategori diskon, hitung harga setelah diskon
+            if (item instanceof Diskon) {
+                continue; // hitung diskon akan dilakukan di akhir
+            }
+            total += item.getHarga() * qty;
+        }
+        return total;
+    }
+
+    public void cetakStruk(String namaFile) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== Struk Pesanan ===\n");
+        double subtotal = 0;
+        double diskonNominal = 0;
+
+        for (int i = 0; i < itemPesanan.size(); i++) {
+            MenuItem item = itemPesanan.get(i);
+            int qty = jumlahPesanan.get(i);
+
+            if (item instanceof Diskon) {
+                Diskon diskonItem = (Diskon) item;
+                diskonNominal += subtotal * diskonItem.getPersentaseDiskon() / 100);
+                sb.append("Promo (" + diskon.getPersentaseDiskon() + "%): -Rp ").append(diskonNominal).append("\n");
+                else {
+                    double subIttem= item.getHarga() * qty;
+                    subtotal += subItem;
+                    sb.append(item.getNama().append(" x").append(qty).append(": Rp ").append(subItem).append("\n");
+                }
+            }
+            
+            double total = subtotal - diskonNominal;
+            if (total < 0) total = 0; // pastikan total tidak negatif
+
+            sb.append("Subtotal: Rp ").append(subtotal).append("\n");
+            sb.append("Diskon: -Rp ").append(diskonNominal).append("\n");
+            sb.append("Total: Rp ").append(total).append("\n");
+            sb.append("Terima kasih telah memesan di restoran kami!\n");
+
+            System.out.println(sb.toString());
+            try (PrintWriter writer = new PrintWriter(new FileWriter(namaFile))) {
+                writer.print(sb.toString());
+                System.out.println("Struk berhasil disimpan ke file: " + namaFile);
+            } catch (IOException e) {
+                System.out.println("Terjadi kesalahan saat menyimpan struk ke file: " + e.getMessage());
+            }
+        }
+    }
