@@ -84,7 +84,7 @@ public class Data {
                         break;
 
                     case 4:
-                        menuRestoran.simpanMenuKeFile(namaFile);
+                        menuRestoran.simpanMenuKeFile("namaFile.txt");
                         break;
 
                     case 5:
